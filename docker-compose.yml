@@ -1,0 +1,49 @@
+services:
+  # --- BACKEND (Laravel 11 Limpio en la Raíz) ---
+  backend:
+    image: php:8.4-apache
+    container_name: portfolio_backend
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www/html
+    environment:
+      - DB_CONNECTION=pgsql
+      - DB_HOST=postgres_db
+      - DB_PORT=5432
+      - DB_DATABASE=portfolio_local
+      - DB_USERNAME=portfolio_user
+      - DB_PASSWORD=portfolio_password
+    command: >
+      sh -c "apt-get update && apt-get install -y git unzip libpq-dev &&
+             docker-php-ext-install pdo pdo_pgsql &&
+             a2enmod rewrite &&
+             sed -ri -e 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/*.conf &&
+             sed -ri -e 's!/var/www/html!/var/www/html/public!g' /etc/apache2/apache2.conf &&
+             if [ ! -f composer.json ]; then
+               curl -sS https://getcomposer.org | php -- --install-dir=/usr/local/bin --filename=composer &&
+               composer create-project laravel/laravel . --prefer-dist &&
+               php artisan install:api --no-interaction &&
+               php artisan make:controller ProjectController
+             fi &&
+             chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache || true &&
+             chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache || true &&
+             apache2-foreground"
+    depends_on:
+      - postgres_db
+
+  # --- BASE DE DATOS LOCAL (PostgreSQL - Réplica de Supabase) ---
+  postgres_db:
+    image: postgres:15-alpine
+    container_name: portfolio_postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=portfolio_local
+      - POSTGRES_USER=portfolio_user
+      - POSTGRES_PASSWORD=portfolio_password
+    volumes:
+      - portfolio_pgsql_data:/var/lib/postgresql/data
+
+volumes:
+  portfolio_pgsql_data:
