@@ -29,4 +29,7 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.
 # Instalar dependencias de producción optimizadas
 RUN composer install --no-dev --optimize-autoloader
 
+CMD php artisan migrate --force && apache2-foreground
+
 EXPOSE 80
+
