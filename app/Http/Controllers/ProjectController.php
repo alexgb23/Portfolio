@@ -3,19 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB; // 👈 OBLIGATORIO: Importa la fachada de Base de Datos
 
 class ProjectController extends Controller
 {
-    // Añade esta función con tus proyectos de ejemplo
+    /**
+     * Devuelve el listado de proyectos desde la base de datos de Render.
+     */
     public function index()
     {
-        $projects = [
-            [
-                'id' => 1,
-                'title' => 'Mi Portfolio Desacoplado',
-                'description' => 'Laravel limpio e independiente funcionando en Docker local.',
-            ]
-        ];
+        // 🚀 CORREGIDO: Consulta real a la tabla 'projects' en la nube
+        $projects = DB::table('projects')->get();
 
         return response()->json($projects);
     }

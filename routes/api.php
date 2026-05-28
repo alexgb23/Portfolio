@@ -2,12 +2,13 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-// 1. Añade esta línea para importar tu controlador automático:
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\NodeController; // 👈 1. IMPORTA TU NUEVO CONTROLADOR
 
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-// 2. Añade esta línea para definir la ruta de tus proyectos:
+// Rutas oficiales de tu API en producción
 Route::get('/projects', [ProjectController::class, 'index']);
+Route::get('/nodes', [NodeController::class, 'index']); // 👈 2. REGISTRA LA RUTA DE NODOS
