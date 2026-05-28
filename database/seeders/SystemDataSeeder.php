@@ -9,9 +9,9 @@ class SystemDataSeeder extends Seeder
 {
     public function run(): void
     {
-        // Limpiar datos previos antes de rellenar
-        DB::table('projects')->truncate();
-        DB::table('nodes')->truncate();
+        // 🚀 CORREGIDO: Usar delete() en lugar de truncate() para evitar bloqueos en PostgreSQL de Render
+        DB::table('projects')->delete();
+        DB::table('nodes')->delete();
 
         // Insertar tus proyectos reales del stack
         DB::table('projects')->insert([
