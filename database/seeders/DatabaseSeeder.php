@@ -15,14 +15,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // 🚀 CORREGIDO: Evita duplicados buscando si el correo ya existe antes de insertar
+        User::firstOrCreate(
+            ['email' => 'test@example.com'], // Condición de búsqueda
+            [
+                'name' => 'Test User',
+                'password' => bcrypt('password'), // Añade una contraseña por defecto requerida
+            ]
+        );
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
-
-        // 🚀 INSTRUCCIÓN AÑADIDA: Llama a tu Seeder de Proyectos y Nodos
         $this->call([
             SystemDataSeeder::class,
         ]);
