@@ -21,5 +21,10 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+
+        // 🚀 INSTRUCCIÓN AÑADIDA: Llama a tu Seeder de Proyectos y Nodos
+        $this->call([
+            SystemDataSeeder::class,
+        ]);
     }
 }
