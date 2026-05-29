@@ -3,27 +3,27 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB; // Fachada obligatoria para tus consultas
+use Illuminate\Support\Facades\DB;
 
 class PortfolioController extends Controller
 {
-    /**
-     * Devuelve todo el ecosistema del portfolio en un solo JSON estructurado.
-     */
-    public function getPortfolioData()
+    public function projects()
     {
-        // Consultas reales usando Query Builder a tus tablas de Neon
-        $projects = DB::table('projects')->get();
-        $nodes    = DB::table('nodes')->get();
-        $servers  = DB::table('servers')->get();
-        $metrics  = DB::table('metrics')->get();
+        return response()->json(DB::table('projects')->get());
+    }
 
-        // Devolvemos el objeto JSON con las llaves que React espera
-        return response()->json([
-            'projects' => $projects,
-            'nodes'    => $nodes,
-            'servers'  => $servers,
-            'metrics'  => $metrics,
-        ]);
+    public function nodes()
+    {
+        return response()->json(DB::table('nodes')->get());
+    }
+
+    public function servers()
+    {
+        return response()->json(DB::table('servers')->get());
+    }
+
+    public function metrics()
+    {
+        return response()->json(DB::table('metrics')->get());
     }
 }

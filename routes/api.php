@@ -2,23 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PortfolioController; // 👈 Agrupado limpiamente arriba
+use App\Http\Controllers\PortfolioController;
 
-/*
-
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-*/
-
-// Ruta por defecto de Laravel Sanctum (puedes dejarla aquí)
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
-
-/**
- * 📊 ENDPOINT CENTRALIZADO DEL PORTFOLIO
- * Devuelve proyectos, nodos, servidores y métricas IoT en una sola petición.
- */
-Route::get('/portfolio', [PortfolioController::class, 'getPortfolioData']);
-
+// 🚀 Tus APIs estructuradas por separado
+Route::get('/projects', [PortfolioController::class, 'projects']);
+Route::get('/nodes', [PortfolioController::class, 'nodes']);
+Route::get('/servers', [PortfolioController::class, 'servers']);
+Route::get('/metrics', [PortfolioController::class, 'metrics']);
