@@ -1,24 +1,25 @@
 services:
-  # --- BACKEND ---
-  backend:
-    build: .
-    container_name: portfolio_backend
-    ports:
-      - "8000:80"
-    volumes:
-      - .:/var/www/html
-    dns:
-      - 8.8.8.8
-      - 8.8.4.4
-    environment:
-      - DB_CONNECTION=pgsql
-      - DB_HOST=dpg-d8b9qc9akrks73dgjp90-a.frankfurt-postgres.render.com # 👈 CORREGIDO: Host externo real sin "://"
-      - DB_PORT=5432
-      - DB_DATABASE=portfolio_zqlb
-      - DB_USERNAME=admin
-      - DB_PASSWORD=ovGaD5u04yvKIJYHeQgePTvknOtFOMMn
-      - DB_SSLMODE=require
-    command: >
-      sh -c "chown -R www-data:www-data /var/www/html &&
-             chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache || true &&
-             apache2-foreground"
+    # --- BACKEND ---
+    backend:
+        build: .
+        container_name: portfolio_backend
+        ports:
+            - "8000:80"
+        volumes:
+            - .:/var/www/html
+        dns:
+            - 8.8.8.8
+            - 8.8.4.4
+        environment:
+            - DB_CONNECTION=pgsql
+            - DB_HOST=ep-silent-star-al1bl52u-pooler.c-3.eu-central-1.aws.neon.tech
+            - DB_PORT=5432
+            - DB_DATABASE=neondb
+            - DB_USERNAME=neondb_owner
+            - DB_PASSWORD=npg_8GtOHoUT1XEW
+            - DB_SSLMODE=require
+
+        command: >
+            sh -c "chown -R www-data:www-data /var/www/html &&
+                   chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache || true &&
+                   apache2-foreground"
